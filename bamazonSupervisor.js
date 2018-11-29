@@ -21,17 +21,18 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  shop();
+  openShop();
 });
 
-var shop = function() {
+var openShop = function() {
   connection.query("SELECT * FROM products", function(err, res) {
-    console.log("---------------------------------");
+    console.log("-------------");
     console.log("Available Products");
-    console.log("---------------------------------");
+    console.log("-------------");
 
-    //New Table instance to format returned sql data
-    var newTable = new table({
+   
+    //use cli table npm
+    var bigTable = new table({
       head: ["ID", "Name", "Price", "Quantity"],
       colWidths: [10, 40, 10, 10]
     });
@@ -42,9 +43,9 @@ var shop = function() {
         res[i].price,
         res[i].stock_quantity
       ];
-      newTable.push(productArray);
+      bigTable.push(productArray);
     }
-    console.log(newTable.toString());
+    console.log(bigTable.toString());
     purchase();
   });
 };
@@ -55,14 +56,14 @@ var purchase = function() {
       {
         name: "Item",
         type: "input",
-        message: "Choose the ID of the item you want to purchase",
+        message: "What is the ID of the product you want",
         validate: function(value) {
           //Validates answer
           if (isNaN(value) === false) {
             return true;
           } else {
             console.log(
-              "\nPlease enter only the item ID of the item you'd like to buy\n"
+              "\nWhat is the ID of the product you want\n"
             );
             return false;
           }
@@ -110,20 +111,20 @@ var purchase = function() {
                   throw err;
                 } else {
                   console.log("Purchase complete!\n");
-                  console.log("Your total cost is: $ " + totalPrice);
+                  console.log("Your total price is: $ " + totalPrice);
 
                   //Asks the shopper if they would like to continue shopping
                   inquirer
                     .prompt({
                       name: "addPurchase",
                       type: "confirm",
-                      message: "Would you like to purchase another product?"
+                      message: "Would you like to by anything else?"
                     })
                     .then(function(answer) {
                       if (answer.addPurchase === true) {
-                        shop();
+                        openShop();
                       } else {
-                        console.log("Thank you. Come again!");
+                        console.log("Thank you. Please come back to Bamazon!");
                         connection.end();
                       }
                     });
