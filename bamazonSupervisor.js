@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   port: 3306,
 
   // Your username
-  user: "root",
+  user: " root",
 
   // Your password
   password: "root",
@@ -34,7 +34,7 @@ var openShop = function() {
     //use cli table npm
     var bigTable = new table({
       head: ["ID", "Name", "Price", "Quantity"],
-      colWidths: [10, 40, 10, 10]
+      colWidths: [15, 45,15, 15]
     });
     for (var i = 0; i < res.length; i++) {
       var productArray = [
@@ -58,7 +58,7 @@ var purchase = function() {
         type: "input",
         message: "What is the ID of the product you want",
         validate: function(value) {
-          //Validates answer
+    
           if (isNaN(value) === false) {
             return true;
           } else {
@@ -70,7 +70,7 @@ var purchase = function() {
         }
       },
       {
-        name: "Qty",
+        name: "Quantity",
         type: "input",
         message: "How many would you like to purchase?",
         validate: function(value) {
@@ -87,20 +87,20 @@ var purchase = function() {
     .then(function(answer) {
       var ItemInt = parseInt(answer.Qty);
 
-      //Cycles the DB
+      
       connection.query(
         "SELECT * FROM products WHERE ?",
         [{ item_id: answer.Item }],
         function(err, data) {
           if (err) throw err;
 
-          //Checks if there are enough items left
+          //Checks if there are enough items left in the store
           if (data[0].stock_quantity < ItemInt) {
             console.log("We're sorry, that item is out of stock\n");
             console.log("Please choose another item\n");
             purchase();
           } else {
-            //If there are enough items the DB is updated
+            // checks to see If there are enough items the DB is updated
             var updateQty = data[0].stock_quantity - ItemInt;
             var totalPrice = data[0].price * ItemInt;
             connection.query(
