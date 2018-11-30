@@ -4,6 +4,7 @@ var table = require('cli-table');
 
 
 
+
 console.log("sup")
 var connection = mysql.createConnection({
   host: "localhost",
@@ -12,7 +13,7 @@ var connection = mysql.createConnection({
   port: 3306,
 
   // Your username
-  user: " root",
+  user: "root",
 
   // Your password
   password: "root",
@@ -70,7 +71,7 @@ var purchase = function() {
         }
       },
       {
-        name: "Quantity",
+        name: "Qty",
         type: "input",
         message: "How many would you like to purchase?",
         validate: function(value) {
