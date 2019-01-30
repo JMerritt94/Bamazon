@@ -1,1 +1,3 @@
 # Bamazon
+
+This node app was the first app I made using MySQL database. This app allows for users to "buy"  certain items from a database and then have the database change to reflect this. Try running it in Node! Make sure to run an NPM install before you test it out in terminal! Test it out in the terminal by running node bamazonSupervisor.js in your terminal! After you run that a table of contents should show up for what you can buy from the database, and entering the id of the product will update the database as you go. Happy shopping!
